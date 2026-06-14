@@ -7,7 +7,8 @@ name = "thecrag-py-runlog"
 description = "Reusable run-log + heartbeat + healthcheck primitives for theCrag background-worker services"
 readme = "README.md"
 requires-python = ">=3.12"
-license = { text = "TBD" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Nicky Hochmuth", email = "nicky@thecrag.com" },
 ]

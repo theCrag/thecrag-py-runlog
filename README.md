@@ -89,4 +89,4 @@ host don't share a heartbeat file (e.g. `HEARTBEAT_PATH=/tmp/altitude-task.heart
 
 ## License
 
-TBD
+[MIT](LICENSE) © 2026 theCrag. Permissive — use anywhere, modify freely, no attribution required beyond the unchanged license notice.
