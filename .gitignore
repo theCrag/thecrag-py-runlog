@@ -1,0 +1,31 @@
+# Byte-compiled / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Tooling
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.pyre/
+
+# Editors
+.vscode/
+.idea/
+
+# Virtual envs
+venv/
+.venv/
+env/
+
+# Build-time secrets (BuildKit) — should never apply here but defensive
+.secrets/

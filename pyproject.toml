@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "setuptools_scm>=8", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thecrag-py-runlog"
+description = "Reusable run-log + heartbeat + healthcheck primitives for theCrag background-worker services"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "TBD" }
+authors = [
+    { name = "Nicky Hochmuth", email = "nicky@thecrag.com" },
+]
+dynamic = ["version"]
+# Stdlib only — no runtime dependencies. Keeping this empty is intentional:
+# the package is meant to be a tiny drop-in that any worker can pull in
+# without dragging extra transitive deps.
+dependencies = []
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+]
+
+[project.urls]
+Repository = "https://github.com/theCrag/thecrag-py-runlog"
+
+[tool.setuptools.packages.find]
+include = ["thecrag_runlog*"]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0+docker"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
