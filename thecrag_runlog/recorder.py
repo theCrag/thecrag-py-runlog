@@ -53,6 +53,10 @@ class RunRecord:
     processed: int
     failed: int
     error: Optional[str] = None
+    # Free-form identifier of what triggered this run — HTTP services typically
+    # populate it with the inbound URL + query string; batch workers can use it
+    # for a job id, cron expression, etc.
+    call: Optional[str] = None
 
     @property
     def duration_seconds(self) -> float:
@@ -66,6 +70,7 @@ class RunRecord:
             "processed": self.processed,
             "failed": self.failed,
             "error": self.error,
+            "call": self.call,
         }
 
 
