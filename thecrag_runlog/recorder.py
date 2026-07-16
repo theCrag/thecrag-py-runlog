@@ -74,6 +74,21 @@ class RunRecord:
         }
 
 
+def _format_uptime(seconds: int) -> str:
+    d, seconds = divmod(seconds, 86400)
+    h, seconds = divmod(seconds, 3600)
+    m, s = divmod(seconds, 60)
+    parts = []
+    if d:
+        parts.append(f"{d}d")
+    if h or d:
+        parts.append(f"{h}h")
+    if m or h or d:
+        parts.append(f"{m}m")
+    parts.append(f"{s}s")
+    return " ".join(parts)
+
+
 class Recorder:
     """Thread-safe rolling run-log writer.
 
@@ -87,10 +102,13 @@ class Recorder:
         service_name: str,
         output_path: Path,
         max_runs_per_task: int = 20,
+        version: Optional[str] = None,
     ):
         self._service_name = service_name
         self._output_path = Path(output_path)
         self._max = max_runs_per_task
+        self._version = version if version is not None else "undefined"
+        self._started_at = datetime.now(timezone.utc)
         self._lock = threading.Lock()
         self._by_task: dict[str, deque[RunRecord]] = {}
 
@@ -118,9 +136,12 @@ class Recorder:
                 name: [r.to_dict() for r in reversed(buf)]
                 for name, buf in self._by_task.items()
             }
+        now = datetime.now(timezone.utc)
         return {
             "service": self._service_name,
-            "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "version": self._version,
+            "uptime": _format_uptime(int((now - self._started_at).total_seconds())),
+            "generated_at": now.isoformat(timespec="seconds"),
             "tasks": tasks,
         }
 
