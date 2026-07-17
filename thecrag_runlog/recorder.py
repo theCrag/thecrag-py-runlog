@@ -74,6 +74,13 @@ class RunRecord:
         }
 
 
+def _read_version_file() -> str:
+    try:
+        return (Path.cwd() / ".version").read_text().strip() or "undefined"
+    except OSError:
+        return "undefined"
+
+
 def _format_uptime(seconds: int) -> str:
     d, seconds = divmod(seconds, 86400)
     h, seconds = divmod(seconds, 3600)
@@ -107,7 +114,7 @@ class Recorder:
         self._service_name = service_name
         self._output_path = Path(output_path)
         self._max = max_runs_per_task
-        self._version = version if version is not None else "undefined"
+        self._version = version if version is not None else _read_version_file()
         self._started_at = datetime.now(timezone.utc)
         self._lock = threading.Lock()
         self._by_task: dict[str, deque[RunRecord]] = {}

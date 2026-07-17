@@ -40,6 +40,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from thecrag_runlog import Recorder, RunRecord, touch_heartbeat
 
+# Recorder auto-reads a .version file from the process working directory and
+# surfaces it as "version" in the status JSON. Falls back to "undefined" when
+# the file is absent. Pass version="..." explicitly to override.
 recorder = Recorder(
     service_name="my-service",
     output_path=Path("/data/status/status.json"),
