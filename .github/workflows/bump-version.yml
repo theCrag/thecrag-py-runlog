@@ -1,0 +1,53 @@
+name: Bump version
+
+# Assigns a date-based version (vYYYY.MM.DD.NNN) on every push to main and
+# writes it to thecrag_runlog/.version so the file is installed with the
+# package and readable at runtime via Recorder._read_runlog_version().
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute and bump version
+        id: compute
+        run: |
+          TODAY=$(date -u +%Y.%m.%d)
+          VERSION_FILE="thecrag_runlog/.version"
+          if [ -f "$VERSION_FILE" ]; then
+            CURRENT=$(cat "$VERSION_FILE" | tr -d '[:space:]')
+            CURRENT_BODY="${CURRENT#v}"
+            CURRENT_DATE="${CURRENT_BODY%.*}"
+            CURRENT_COUNT="${CURRENT_BODY##*.}"
+            if [ "$CURRENT_DATE" = "$TODAY" ]; then
+              COUNT=$(printf "%03d" $((10#$CURRENT_COUNT + 1)))
+            else
+              COUNT="001"
+            fi
+          else
+            COUNT="001"
+          fi
+          VERSION="v${TODAY}.${COUNT}"
+          echo "$VERSION" > "$VERSION_FILE"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push thecrag_runlog/.version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add thecrag_runlog/.version
+          git diff --staged --quiet || \
+            git commit -m "chore: bump version to ${{ steps.compute.outputs.version }} [skip ci]"
+          git push

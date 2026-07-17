@@ -74,6 +74,13 @@ class RunRecord:
         }
 
 
+def _read_runlog_version() -> str:
+    try:
+        return (Path(__file__).parent / ".version").read_text().strip() or "undefined"
+    except OSError:
+        return "undefined"
+
+
 def _read_version_file() -> str:
     try:
         return (Path.cwd() / ".version").read_text().strip() or "undefined"
@@ -147,6 +154,7 @@ class Recorder:
         return {
             "service": self._service_name,
             "version": self._version,
+            "runlog_version": _read_runlog_version(),
             "uptime": _format_uptime(int((now - self._started_at).total_seconds())),
             "generated_at": now.isoformat(timespec="seconds"),
             "tasks": tasks,

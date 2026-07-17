@@ -30,6 +30,9 @@ Repository = "https://github.com/theCrag/thecrag-py-runlog"
 [tool.setuptools.packages.find]
 include = ["thecrag_runlog*"]
 
+[tool.setuptools.package-data]
+thecrag_runlog = [".version"]
+
 [tool.setuptools_scm]
 fallback_version = "0.0.0+docker"
 

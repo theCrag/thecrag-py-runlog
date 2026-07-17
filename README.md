@@ -9,7 +9,7 @@ service. Designed to fit the operational shape described in
 
 | Module | Purpose |
 |---|---|
-| `thecrag_runlog.Recorder` | Thread-safe per-task rolling deque (last N runs). Atomically rewrites a JSON file after every record — safe to serve directly as a static asset via Caddy / nginx. |
+| `thecrag_runlog.Recorder` | Thread-safe per-task rolling deque (last N runs). Atomically rewrites a JSON file after every record — safe to serve directly as a static asset via Caddy / nginx. Status JSON includes `version` (service), `runlog_version` (this library), `uptime`, and `generated_at`. |
 | `thecrag_runlog.RunRecord` | Dataclass for one execution of a task (start/end timestamps, processed/failed counts, optional error). |
 | `thecrag_runlog.touch_heartbeat` | Touches the heartbeat file the Docker healthcheck reads. Call once per minute from a scheduled job or main loop. |
 | `python -m thecrag_runlog.healthcheck` | CLI entry point used in `Dockerfile`'s `HEALTHCHECK` directive. Exits 0/1 based on heartbeat freshness. |
