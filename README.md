@@ -3,7 +3,7 @@
 Reusable run-log + heartbeat + healthcheck primitives for theCrag
 background-worker services. Stdlib only, drops into any Python 3.12+
 service. Designed to fit the operational shape described in
-[thecrag-py-altitude-task/SERVICE_TEMPLATE.md](https://github.com/theCrag/thecrag-py-altitude-task/blob/master/SERVICE_TEMPLATE.md).
+[thecrag-processing-server/SERVICE_TEMPLATE.md](https://github.com/theCrag/thecrag-processing-server/blob/master/SERVICE_TEMPLATE.md).
 
 ## What's in the box
 
