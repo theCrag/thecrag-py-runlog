@@ -1,0 +1,19 @@
+[flake8]
+# Matches the rest of the processing fleet (rasterizer, altitude, pdf-guide,
+# analytics). This repo had no lint config, so flake8 fell back to the 79-char
+# default that the existing recorder.py and healthcheck.py already violated.
+max-line-length = 125
+extend-ignore =
+    # whitespace before ':' — conflicts with black/isort
+    E203
+    # line break before binary operator — also conflicts with black
+    W503
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    .venv,
+    build,
+    dist,
+    .eggs,
+    *.egg-info
